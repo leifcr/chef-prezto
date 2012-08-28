@@ -1,5 +1,5 @@
 git "/usr/src/oh-my-zsh" do
-  repository "https://github.com/robbyrussell/oh-my-zsh.git"
+  repository node[:ohmyzsh][:repo]
   reference "master"
   action :sync
 end
