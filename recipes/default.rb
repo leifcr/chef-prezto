@@ -37,7 +37,7 @@ search( :users, "shell:*zsh" ).each do |u|
   %w{ zshenv zshrc zlogin zlogout }.each do |zfile|
     execute "install /home/#{user_id}/#{zfile}" do
       cwd "/home/#{user_id}"
-      command "cp -f /home/#{user_id}/.prezto/runcoms/#{zfile} /home/#{user_id}/.#{zfile}"
+      command "cp -pf /home/#{user_id}/.prezto/runcoms/#{zfile} /home/#{user_id}/.#{zfile}"
       not_if { ::File.exists?("/home/#{user_id}/.#{zfile}")}
     end
   end
