@@ -1,5 +1,5 @@
 #
-# Cookbook Name:: oh-my-zsh
+# Cookbook Name:: prezto
 # Recipe:: default
 #
 # Copyright 2011, Heavy Water Software Inc.
@@ -23,22 +23,22 @@ include_recipe "zsh"
 search( :users, "shell:*zsh" ).each do |u|
   user_id = u["id"]
 
-  git "/home/#{user_id}/.oh-my-zsh" do
-    repository node[:ohmyzsh][:repo]
+  git "/home/#{user_id}/.prezto" do
+    repository node[:prezto][:repo]
     reference "master"
     user user_id
     group user_id
     action :checkout
-    not_if "test -d /home/#{user_id}/.oh-my-zsh"
+    not_if "test -d /home/#{user_id}/.prezto"
   end
 
-  theme = data_bag_item( "users", user_id )["oh-my-zsh-theme"]
+  theme = data_bag_item( "users", user_id )["prezto-theme"]
 
-  template "/home/#{user_id}/.zshrc" do
-    source "zshrc.erb"
-    owner user_id
-    group user_id
-    variables( :theme => ( theme || node[:ohmyzsh][:theme] ))
-    action :create_if_missing
+  %w{ zshenv zshrc zlogin zlogout }.each do |zfile|
+    execute "install /home/#{user_id}/#{zfile}" do
+      cwd "/home/#{user_id}"
+      command "cp -f /home/#{user_id}/.prezto/runcoms/#{zfile} /home/#{user_id}/.#{zfile}"
+      not_if { ::File.exists?("/home/#{user_id}/.#{zfile}")}
+    end
   end
 end
