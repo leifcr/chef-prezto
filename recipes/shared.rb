@@ -1,4 +1,4 @@
-git "/usr/src/prezto" do
+git "/usr/src/zprezto" do
   repository node[:prezto][:repo]
   reference "master"
   action :sync
@@ -9,15 +9,15 @@ search( :users, "shell:*zsh" ).each do |u|
 
   theme = data_bag_item( "users", user_id )["prezto-theme"]
 
-  link "/home/#{user_id}/.prezto" do
-    to "/usr/src/prezto"
-    not_if "test -d /home/#{user_id}/.prezto"
+  link "/home/#{user_id}/.zprezto" do
+    to "/usr/src/zprezto"
+    not_if "test -d /home/#{user_id}/.zprezto"
   end
 
   %w{ zshenv zshrc zlogin zlogout }.each do |zfile|
     execute "install /home/#{user_id}/#{zfile}" do
       cwd "/home/#{user_id}"
-      command "cp -pf /home/#{user_id}/.prezto/runcoms/#{zfile} /home/#{user_id}/.#{zfile}"
+      command "cp -pf /home/#{user_id}/.zprezto/runcoms/#{zfile} /home/#{user_id}/.#{zfile}"
       not_if { ::File.exists?("/home/#{user_id}/.#{zfile}")}
     end
   end
