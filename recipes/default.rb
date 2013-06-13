@@ -11,7 +11,9 @@ file_action = node[:prezto][:keep_config] ? :create_if_missing : :create
 
 search( :users, "shell:*zsh" ).each do |u|
   user_id = u["id"]
-  home_directory = `cat /etc/passwd | grep "#{user_id}" | cut -d ":" -f6`.chop
+  # not working?
+  # home_directory = `cat /etc/passwd | grep "#{user_id}" | cut -d ":" -f6`.chop
+  home_directory = "/home/#{user_id}"
 
   git "#{home_directory}/.zprezto" do
     repository node[:prezto][:repo]
@@ -19,7 +21,7 @@ search( :users, "shell:*zsh" ).each do |u|
     user user_id
     #group user_id
     action :checkout
-    not_if "test -d /home/#{user_id}/.zprezto"
+    not_if "test -d #{home_directory}/.zprezto"
   end
 
   template "#{home_directory}/.zpreztorc" do
@@ -39,7 +41,7 @@ search( :users, "shell:*zsh" ).each do |u|
 
   %w{ zshenv zshrc zlogin zlogout }.each do |zfile|
     execute "install #{home_directory}/#{zfile}" do
-      cwd "/home/#{user_id}"
+      cwd "#{home_directory}"
       command "ln -s #{home_directory}/.zprezto/runcoms/#{zfile} #{home_directory}/.#{zfile}"
       not_if { ::File.exists?("#{home_directory}/.#{zfile}")}
     end
