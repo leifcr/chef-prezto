@@ -7,8 +7,6 @@ end
 search( :users, "shell:*zsh" ).each do |u|
   user_id = u["id"]
 
-  theme = data_bag_item( "users", user_id )["prezto-theme"]
-
   link "/home/#{user_id}/.zprezto" do
     to "/usr/src/zprezto"
     not_if "test -d /home/#{user_id}/.zprezto"
