@@ -23,17 +23,17 @@ zstyle ':prezto:*:*' color 'yes'
 
 # Set the Prezto modules to load (browse modules).
 # The order matters.
-zstyle ':prezto:load' pmodule <%= prezto_modules.join(' ') %>
+zstyle ':prezto:load' pmodule <%= @prezto_modules.join(' ') %>
 
 #
 # Editor
 #
 
 # Set the key mapping style to 'emacs' or 'vi'.
-zstyle ':prezto:module:editor' keymap '<%= editor %>'
+zstyle ':prezto:module:editor' keymap '<%= @editor %>'
 
 # Auto convert .... to ../..
-zstyle ':prezto:module:editor' dot-expansion '<%= dotexpansion %>'
+zstyle ':prezto:module:editor' dot-expansion '<%= @dotexpansion %>'
 
 #
 # Git
@@ -117,7 +117,7 @@ zstyle ':prezto:module:prompt' theme '<%= @theme %>'
 #
 
 # Auto set the tab and window titles.
-zstyle ':prezto:module:terminal' auto-title '<%= autotitle %>'
+zstyle ':prezto:module:terminal' auto-title '<%= @autotitle %>'
 
 #
 # Tmux
