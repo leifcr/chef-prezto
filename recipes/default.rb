@@ -39,7 +39,7 @@ search( :users, "shell:*zsh" ).each do |u|
     action file_action
   end
 
-  %w{ zshenv zshrc zlogin zlogout }.each do |zfile|
+  %w{ zshenv zshrc zlogin }.each do |zfile|
     execute "install #{home_directory}/#{zfile}" do
       cwd "#{home_directory}"
       command "ln -s #{home_directory}/.zprezto/runcoms/#{zfile} #{home_directory}/.#{zfile}"
