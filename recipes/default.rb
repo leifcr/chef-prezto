@@ -31,8 +31,8 @@ search( :users, "shell:*zsh" ).each do |u|
     #group user_id
     mode "644"
     variables(
-        :theme          => node[:prezto][:theme],
-        :prezto_modules => node[:prezto][:prezto_modules],
+        :theme          => u["prezto"]["theme"] ? u["prezto"]["theme"] : node[:prezto][:theme],
+        :prezto_modules => u["prezto"]["modules"] ? u["prezto"]["modules"] : node[:prezto][:prezto_modules],
         :editor         => node[:prezto][:editor],
         :dotexpansion   => node[:prezto][:dotexpansion],
         :autotitle      => node[:prezto][:autotitle]
