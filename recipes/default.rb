@@ -18,6 +18,7 @@ search( :users, "shell:*zsh" ).each do |u|
   git "#{home_directory}/.zprezto" do
     repository node[:prezto][:repo]
     reference "master"
+    enable_submodules true
     user user_id
     #group user_id
     action :checkout
