@@ -4,3 +4,5 @@ default[:prezto][:prezto_modules] = %w('environment' 'terminal' 'editor' 'histor
 default[:prezto][:editor]         = "emacs"
 default[:prezto][:dotexpansion]   = "no"
 default[:prezto][:autotitle]      = "yes"
+default[:prezto][:keep_config]    = true
+default[:prezto][:keep_git]       = true
