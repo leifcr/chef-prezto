@@ -1,6 +1,7 @@
 git "/usr/src/zprezto" do
   repository node[:prezto][:repo]
   reference "master"
+  enable_submodules true
   action :sync
 end
 

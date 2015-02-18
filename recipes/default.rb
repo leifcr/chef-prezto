@@ -8,6 +8,7 @@ include_recipe "zsh"
 
 # Overwrite config file if required
 file_action = node[:prezto][:keep_config] ? :create_if_missing : :create
+git_action = node[:prezto][:keep_git] ? :checkout : :sync
 
 search( :users, "shell:*zsh" ).each do |u|
   user_id = u["id"]
@@ -18,10 +19,10 @@ search( :users, "shell:*zsh" ).each do |u|
   git "#{home_directory}/.zprezto" do
     repository node[:prezto][:repo]
     reference "master"
+    enable_submodules true
     user user_id
     #group user_id
-    action :checkout
-    not_if "test -d #{home_directory}/.zprezto"
+    action git_action
   end
 
   template "#{home_directory}/.zpreztorc" do
@@ -30,8 +31,8 @@ search( :users, "shell:*zsh" ).each do |u|
     #group user_id
     mode "644"
     variables(
-        :theme          => node[:prezto][:theme],
-        :prezto_modules => node[:prezto][:prezto_modules],
+        :theme          => u["prezto"]["theme"] ? u["prezto"]["theme"] : node[:prezto][:theme],
+        :prezto_modules => u["prezto"]["modules"] ? u["prezto"]["modules"] : node[:prezto][:prezto_modules],
         :editor         => node[:prezto][:editor],
         :dotexpansion   => node[:prezto][:dotexpansion],
         :autotitle      => node[:prezto][:autotitle]
